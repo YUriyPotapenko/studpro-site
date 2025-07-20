@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudPro – Підтримка студентів</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f4f6;
+      color: #111827;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #1e3a8a;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #93c5fd; }
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .hero-modern {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: #fff;
+    }
+    .brand-title {
+      font-size: 4rem;
+      font-weight: 900;
+      animation: glowText 3s infinite alternate;
+    }
+    .brand-title span {
+      color: #a5f3fc;
+      text-shadow: 0 0 12px #06b6d4;
+    }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin: 1rem 0 2rem;
+      opacity: 0.9;
+    }
+    .hero-modern button {
+      background: #fff;
+      color: #3b82f6;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.3s ease;
+      margin-top: 1rem;
+    }
+    .hero-modern button:hover {
+      transform: scale(1.05);
+      background: #e0ecff;
+    }
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px #ffffff55, 0 0 20px #60a5fa99; transform: scale(1); }
+      100% { text-shadow: 0 0 20px #ffffffaa, 0 0 40px #38bdf899; transform: scale(1.02); }
+    }
+    .telegram-live-chat {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      background-color: #0088cc;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 30px;
+      z-index: 9999;
+      animation: pulse 2.5s infinite;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .telegram-live-chat:hover {
+      transform: scale(1.1);
+      background: #00a8e8;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 136, 204, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0, 136, 204, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 136, 204, 0); }
+    }
+    .section {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #1e3a8a;
+    }
+    .section-title span { color: #3b82f6; }
+    .section-text {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #10b981;
+      color: #fff;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: transform 0.3s, background 0.3s;
+      margin-top: 1.5rem;
+    }
+    .cta-button:hover {
+      background: #059669;
+      transform: scale(1.05);
+    }
+    .pulse {
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    .service-card h3 {
+      margin: 1rem 0 0.5rem;
+      color: #1e3a8a;
+    }
+    form {
+      background: #fff;
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    form button {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    form button:hover { background-color: #4338ca; }
+    .file-upload label {
+      display: inline-block;
+      padding: 0.75rem 1.2rem;
+      background-color: #3b82f6;
+      color: #fff;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .file-upload input { display: none; }
+    .file-upload span { margin-left: 1rem; font-size: 0.9rem; }
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .testimonial-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    .testimonial-card p {
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+    .testimonial-card h4 {
+      margin-top: 0.5rem;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+    .thank-you-message {
+      display: none;
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #ecfdf5;
+      border: 2px solid #10b981;
+      border-radius: 1rem;
+      color: #065f46;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; background: #1e3a8a; position: absolute; top: 100%; right: 0; width: 200px; padding: 1rem; }
+      .nav-links.active { display: flex; }
+      .menu-toggle { display: block; }
+      .brand-title { font-size: 2.5rem; }
+      .hero-subtitle { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="https://t.me/StudyProobot" class="telegram-live-chat" target="_blank" title="Напишіть нам у Telegram">
+    <span>✉️</span>
+  </a>
+
+  <nav>
+    <div class="nav-logo">StudPro</div>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
+    <div class="nav-links">
+      <a href="#about">Про нас</a>
+      <a href="#services">Послуги</a>
+      <a href="#formSection">Замовити</a>
+    </div>
+  </nav>
+
+  <header class="hero-modern">
+    <h1 class="brand-title">Stud<span>Pro</span></h1>
+    <p class="hero-subtitle">Виконуємо курсові, дипломні та тести — швидко й якісно 🇺🇦</p>
+    <button onclick="document.getElementById('formSection').scrollIntoView({behavior:'smooth'})">Замовити</button>
+  </header>
+
+  <section id="about" class="section" data-aos="fade-up">
+    <h2 class="section-title">Про <span>StudPro</span></h2>
+    <p class="section-text">StudPro — це сервіс, створений для студентів, які хочуть отримати якісну допомогу з навчанням без зайвого стресу. 
+		Ми працюємо з 2020 року та вже допомогли тисячам студентів по всій Україні.
+
+Ми не просто виконуємо роботи — ми економимо твій час, знімаємо навантаження та даємо впевненість у результаті. Усі наші тексти перевіряються на унікальність і відповідають вимогам ВНЗ. У нас чіткий підхід, прозоре спілкування і завжди — підтримка в Telegram 24/7.
+
+</p>
+    <a href="#formSection" class="cta-button pulse">Замовити зараз</a>
+  </section>
+
+  <section id="services" class="section" data-aos="fade-up">
+    <h2 class="section-title">Наші <span>послуги</span></h2>
+    <div class="services-grid">
+      <div class="service-card">📚<h3>Курсові роботи</h3><p>Професійно та індивідуально</p></div>
+      <div class="service-card">🧠<h3>Контрольні, тести</h3><p>Швидко й ефективно</p></div>
+      <div class="service-card">💼<h3>Дипломні проєкти</h3><p>Повний супровід</p></div>
+      <div class="service-card">📄<h3>Реферати та звіти</h3><p>Без плагіату</p></div>
+    </div>
+    <a href="#formSection" class="cta-button pulse">Замовити</a>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <h2 class="section-title">Відгуки <span>студентів</span></h2>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <p>“Замовив курсову за добу до дедлайну — зробили ідеально. Спасибі!”</p>
+        <h4>— Олександр, НУБіП</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Не очікувала такого сервісу! Дуже ввічлива підтримка та якісна робота.”</p>
+        <h4>— Ірина, КНУ</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Все чітко, швидко і без зайвих питань. Рекомендую друзям!”</p>
+        <h4>— Андрій, ЛНУ</h4>
+      </div>
+    </div>
+  </section>
+
+  <section id="formSection" class="section" data-aos="fade-up">
+    <form id="orderForm" action="https://formspree.io/f/xeozozvb" method="POST" enctype="multipart/form-data">
+      <h2>Замовити допомогу</h2>
+      <input type="text" name="name" placeholder="Ваше ім’я" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="subject" placeholder="Тема роботи" required />
+      <select name="uniqueness" required>
+        <option value="" disabled selected>Оберіть унікальність</option>
+        <option value="60%">60%</option>
+        <option value="70%">70%</option>
+        <option value="80%">80%</option>
+        <option value="90%">90%</option>
+        <option value="100%">100%</option>
+      </select>
+      <textarea name="message" placeholder="Ваше завдання або питання" rows="5" required></textarea>
+      
+      <button type="submit">Надіслати</button>
+    </form>
+    <div class="thank-you-message" id="thankYouMessage">
+      Дякуємо! Ми з вами зв’яжемося найближчим часом.
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    document.getElementById("fileInput").addEventListener("change", function () {
+      const fileName = Array.from(this.files).map(f => f.name).join(', ');
+      document.getElementById("fileName").textContent = fileName || "Файл не обрано";
+    });
+
+    document.getElementById("orderForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = "none";
+          document.getElementById("thankYouMessage").style.display = "block";
+        } else {
+          alert("Помилка. Спробуйте ще раз.");
+        }
+      }).catch(() => {
+        alert("Сервер не відповідає. Спробуйте пізніше.");
+      });
+    });
+  </script>
+	
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudPro – Підтримка студентів</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f4f6;
+      color: #111827;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #1e3a8a;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #93c5fd; }
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .hero-modern {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      color: #fff;
+    }
+    .brand-title {
+      font-size: 4rem;
+      font-weight: 900;
+      animation: glowText 3s infinite alternate;
+    }
+    .brand-title span {
+      color: #a5f3fc;
+      text-shadow: 0 0 12px #06b6d4;
+    }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin: 1rem 0 2rem;
+      opacity: 0.9;
+    }
+    .hero-modern button {
+      background: #fff;
+      color: #3b82f6;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.3s ease;
+      margin-top: 1rem;
+    }
+    .hero-modern button:hover {
+      transform: scale(1.05);
+      background: #e0ecff;
+    }
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px #ffffff55, 0 0 20px #60a5fa99; transform: scale(1); }
+      100% { text-shadow: 0 0 20px #ffffffaa, 0 0 40px #38bdf899; transform: scale(1.02); }
+    }
+    .telegram-live-chat {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      background-color: #0088cc;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 30px;
+      z-index: 9999;
+      animation: pulse 2.5s infinite;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .telegram-live-chat:hover {
+      transform: scale(1.1);
+      background: #00a8e8;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 136, 204, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0, 136, 204, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 136, 204, 0); }
+    }
+    .section {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #1e3a8a;
+    }
+    .section-title span { color: #3b82f6; }
+    .section-text {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #10b981;
+      color: #fff;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: transform 0.3s, background 0.3s;
+      margin-top: 1.5rem;
+    }
+    .cta-button:hover {
+      background: #059669;
+      transform: scale(1.05);
+    }
+    .pulse {
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    .service-card h3 {
+      margin: 1rem 0 0.5rem;
+      color: #1e3a8a;
+    }
+    .why-us {
+      background-color: #e0f2fe;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .why-us h2 {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 2rem;
+    }
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .reason {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .reason h3 {
+      font-size: 1.3rem;
+      color: #0f172a;
+      margin-top: 1rem;
+    }
+    .faq {
+      background-color: #f9fafb;
+      padding: 4rem 2rem;
+    }
+    .faq h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 2rem;
+    }
+    .faq-item {
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 1rem;
+    }
+    .faq-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .faq-item p {
+      font-size: 1rem;
+      color: #4b5563;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ... весь попередній код сайту ... -->
+
+<section class="why-us" data-aos="fade-up">
+  <h2>Чому саме <span style="color:#3b82f6">StudPro</span>?</h2>
+  <div class="reasons">
+    <div class="reason" data-aos="zoom-in" data-aos-delay="100">
+      <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" width="60" alt="" />
+      <h3>Без плагіату</h3>
+      <p>Кожна робота унікальна і проходить антиплагіат.</p>
+    </div>
+    <div class="reason" data-aos="zoom-in" data-aos-delay="200">
+      <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" width="60" alt="" />
+      <h3>Швидкі терміни</h3>
+      <p>Виконуємо роботи навіть за добу.</p>
+    </div>
+    <div class="reason" data-aos="zoom-in" data-aos-delay="300">
+      <img src="https://cdn-icons-png.flaticon.com/512/3106/3106773.png" width="60" alt="" />
+      <h3>24/7 підтримка</h3>
+      <p>Ми онлайн у Telegram цілодобово.</p>
+    </div>
+    <div class="reason" data-aos="zoom-in" data-aos-delay="400">
+      <img src="https://cdn-icons-png.flaticon.com/512/3106/3106807.png" width="60" alt="" />
+      <h3>Просте замовлення</h3>
+      <p>Заповнив форму — ми вже працюємо.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-aos="fade-up">
+  <h2>Поширені запитання</h2>
+  <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+    <h4>Чи легально замовляти такі роботи?</h4>
+    <p>Ми надаємо допомогу для приватного використання. Клієнт сам несе відповідальність за подальше застосування.</p>
+  </div>
+  <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+    <h4>Скільки це коштує?</h4>
+    <p>Ціна залежить від обсягу роботи, термінів та рівня унікальності. Ми озвучуємо вартість після ознайомлення із завданням.</p>
+  </div>
+  <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+    <h4>Як відбувається оплата?</h4>
+    <p>Зазвичай — після погодження попередньої версії. Деталі обговорюються індивідуально у чаті.</p>
+  </div>
+</section>
+
+<!-- ... решта сайту — форма, скрипти, футер ... -->
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  document.getElementById("fileInput").addEventListener("change", function () {
+    const fileName = Array.from(this.files).map(f => f.name).join(', ');
+    document.getElementById("fileName").textContent = fileName || "Файл не обрано";
+  });
+
+  document.getElementById("orderForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const message = document.getElementById("thankYouMessage");
+    const data = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        form.style.display = "none";
+        message.classList.add("show"); // ⬅️ плавне з'явлення
+
+        setTimeout(() => {
+          message.classList.remove("show"); // ⬅️ плавне зникнення
+
+          setTimeout(() => {
+            form.reset();
+            form.style.display = "block";
+          }, 500); // дочекатись завершення анімації
+        }, 5000);
+      } else {
+        alert("Помилка. Спробуйте ще раз.");
+      }
+    }).catch(() => {
+      alert("Сервер не відповідає. Спробуйте пізніше.");
+    });
+  });
+</script>
+</body>
+	</html> 
